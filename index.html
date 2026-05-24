@@ -11,11 +11,30 @@
   --bg:#080e1c;--card:rgba(255,255,255,.05);--bdr:rgba(255,255,255,.09);
   --red:#EF2B2D;--blue:#60a5fa;--purple:#a78bfa;--green:#4ade80;--danger:#f87171;--orange:#fb923c;
   --muted:rgba(255,255,255,.42);--font-d:'Barlow Condensed',sans-serif;--font-b:'DM Sans',sans-serif;
+  /* theme tokens */
+  --text:#fff;--text-dim:rgba(255,255,255,.6);--text-faint:rgba(255,255,255,.35);
+  --hdr-bg:rgba(0,0,0,.45);--row-even:rgba(255,255,255,.025);--row-nor:rgba(239,43,45,.18);
+  --tbl-hdr:rgba(255,255,255,.1);--score-bg:rgba(255,255,255,.1);
+  --sr-bg:rgba(255,255,255,.04);--sr-up:rgba(255,255,255,.02);--sc-up:rgba(255,255,255,.08);
+  --res-bg:rgba(255,255,255,.025);--match-bg:rgba(255,255,255,.04);--match-bdr:rgba(255,255,255,.08);
+  --bg-grad1:rgba(0,40,104,.35);--bg-grad2:rgba(239,43,45,.12);
+  --hero-a:rgba(239,43,45,.22);--hero-b:rgba(0,40,104,.35);
 }
-body{background:var(--bg);background-image:radial-gradient(ellipse at 15% 15%,rgba(0,40,104,.35) 0%,transparent 55%),radial-gradient(ellipse at 85% 85%,rgba(239,43,45,.12) 0%,transparent 50%);color:#fff;font-family:var(--font-b);min-height:100vh;padding-bottom:40px}
-.hdr{background:rgba(0,0,0,.45);border-bottom:1px solid var(--bdr);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+body.light{
+  --bg:#eef2f7;--card:#fff;--bdr:rgba(0,0,0,.1);--muted:rgba(0,0,0,.45);
+  --text:#0f172a;--text-dim:rgba(0,0,0,.55);--text-faint:rgba(0,0,0,.4);
+  --hdr-bg:rgba(255,255,255,.92);--row-even:rgba(0,0,0,.025);--row-nor:rgba(239,43,45,.1);
+  --tbl-hdr:rgba(0,0,0,.08);--score-bg:rgba(0,0,0,.08);
+  --sr-bg:rgba(0,0,0,.03);--sr-up:rgba(0,0,0,.015);--sc-up:rgba(0,0,0,.06);
+  --res-bg:rgba(0,0,0,.02);--match-bg:rgba(0,0,0,.02);--match-bdr:rgba(0,0,0,.1);
+  --bg-grad1:rgba(0,80,200,.06);--bg-grad2:rgba(239,43,45,.05);
+  --hero-a:rgba(239,43,45,.12);--hero-b:rgba(0,40,104,.12);
+  --green:#16a34a;--danger:#dc2626;--blue:#1d4ed8;--purple:#7c3aed;--orange:#c2410c;
+}
+body{background:var(--bg);background-image:radial-gradient(ellipse at 15% 15%,var(--bg-grad1) 0%,transparent 55%),radial-gradient(ellipse at 85% 85%,var(--bg-grad2) 0%,transparent 50%);color:var(--text);font-family:var(--font-b);min-height:100vh;padding-bottom:40px;transition:background .3s,color .3s}
+.hdr{background:var(--hdr-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--bdr);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .hdr-t{font-family:var(--font-d);font-size:20px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}
-.hdr-t span{color:var(--red)}.hdr-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px}
+.hdr-t span{color:var(--red)}.hdr-sub{font-size:11px;color:var(--text-faint);margin-top:3px}
 .hdr-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .tabs{border-bottom:1px solid var(--bdr);padding:0 20px;display:flex;gap:2px;overflow-x:auto}
 .tab{background:none;border:none;cursor:pointer;color:var(--muted);font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:9px 12px;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
@@ -25,65 +44,68 @@ body{background:var(--bg);background-image:radial-gradient(ellipse at 15% 15%,rg
 .card{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--bdr)}
 .lbl{font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
 /* Hero */
-.hero{background:linear-gradient(135deg,rgba(239,43,45,.22) 0%,rgba(0,40,104,.35) 100%);border-radius:16px;padding:18px 20px;border:1px solid rgba(239,43,45,.4);display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+.hero{background:linear-gradient(135deg,var(--hero-a) 0%,var(--hero-b) 100%);border-radius:16px;padding:18px 20px;border:1px solid rgba(239,43,45,.4);display:flex;flex-wrap:wrap;gap:20px;align-items:center}
 .hero.q4{border-color:rgba(74,222,128,.4)}
 .hero-pos{font-family:var(--font-d);font-size:30px;font-weight:900}
-.hero-pos span{color:rgba(255,255,255,.35);font-size:18px}
+.hero-pos span{color:var(--text-faint);font-size:18px}
 .s-val{font-family:var(--font-d);font-size:26px;font-weight:900;text-align:center}
 .s-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;text-align:center}
 /* Table */
 .tw{overflow-x:auto}
 table.st{width:100%;border-collapse:collapse;font-size:13px}
-table.st thead tr{border-bottom:1px solid rgba(255,255,255,.1);color:var(--muted)}
+table.st thead tr{border-bottom:1px solid var(--tbl-hdr);color:var(--muted)}
 table.st th{padding:4px 5px;font-size:11px;font-weight:600}
 table.st th:nth-child(n+3){text-align:center}
-table.st td{padding:6px 5px;white-space:nowrap}
-table.st td:nth-child(n+3){text-align:center;color:rgba(255,255,255,.6)}
-table.st tr.nor{background:rgba(239,43,45,.18);border-left:3px solid var(--red)}
+table.st td{padding:6px 5px;white-space:nowrap;color:var(--text)}
+table.st td:nth-child(n+3){text-align:center;color:var(--text-dim)}
+table.st tr.nor{background:var(--row-nor);border-left:3px solid var(--red)}
 table.st tr:not(.nor){border-left:3px solid transparent}
-table.st tr:not(.nor):nth-child(even){background:rgba(255,255,255,.02)}
-.pts{color:#fff!important;font-weight:700!important}.gd-p{color:var(--green)!important}.gd-n{color:var(--danger)!important}
+table.st tr:not(.nor):nth-child(even){background:var(--row-even)}
+.pts{color:var(--text)!important;font-weight:700!important}.gd-p{color:var(--green)!important}.gd-n{color:var(--danger)!important}
 .pq{color:var(--green)!important;font-weight:700}.pr{color:var(--danger)!important;font-weight:700}
-.nt{color:#fff;font-weight:700}
+.nt{color:var(--text);font-weight:700}
 .bdg{border-radius:4px;padding:1px 5px;font-size:10px;font-weight:700}
 .bdg-q{background:#16a34a;color:#fff}.bdg-r{background:#dc2626;color:#fff}
-.leg{margin-top:10px;display:flex;gap:14px;font-size:11px;color:rgba(255,255,255,.3)}
+.leg{margin-top:10px;display:flex;gap:14px;font-size:11px;color:var(--muted)}
 /* Schedule */
 .nc{background:rgba(239,43,45,.07);border:1px solid rgba(239,43,45,.3)!important}
 .sch{display:flex;flex-direction:column;gap:8px}
-.sr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.04)}
-.sr.up{background:rgba(255,255,255,.02);opacity:.9}
-.sm{font-size:11px;color:var(--muted)}.sg{color:#fff;font-weight:600;margin-top:3px}
-.sc-score{background:rgba(255,255,255,.1);border-radius:8px;padding:3px 12px;font-weight:700;font-size:15px;font-family:monospace;display:flex;flex-direction:column;align-items:center;gap:2px}
-.vd{font-size:10px;font-weight:700;font-family:var(--font-b)}.vd.w{color:var(--green)}.vd.l{color:var(--danger)}.vd.otl{color:#facc15}
-.sc-up{background:rgba(255,255,255,.08);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--muted)}
+.sr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:var(--sr-bg)}
+.sr.up{background:var(--sr-up);opacity:.9}
+.sm{font-size:11px;color:var(--muted)}.sg{color:var(--text);font-weight:600;margin-top:3px}
+.sc-score{background:var(--score-bg);border-radius:8px;padding:3px 12px;font-weight:700;font-size:15px;font-family:monospace;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text)}
+.vd{font-size:10px;font-weight:700;font-family:var(--font-b)}.vd.w{color:var(--green)}.vd.l{color:var(--danger)}.vd.otl{color:#d97706}
+.sc-up{background:var(--sc-up);border-radius:8px;padding:5px 12px;font-size:12px;color:var(--muted)}
 /* Results */
 .rl{display:flex;flex-direction:column;gap:5px}
-.rr{display:grid;grid-template-columns:62px 1fr 68px 1fr;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.025);border-left:3px solid transparent;font-size:13px}
-.rr.hl{background:rgba(239,43,45,.15);border-left-color:var(--red)}
-.rd{color:rgba(255,255,255,.38);font-size:11px}.rh{color:rgba(255,255,255,.85);text-align:right}
-.ra{color:rgba(255,255,255,.85)}
-.rs{background:rgba(255,255,255,.1);border-radius:6px;padding:2px 6px;text-align:center;font-weight:700;color:#fff;font-family:monospace}
+.rr{display:grid;grid-template-columns:62px 1fr 68px 1fr;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:var(--res-bg);border-left:3px solid transparent;font-size:13px}
+.rr.hl{background:rgba(239,43,45,.12);border-left-color:var(--red)}
+.rd{color:var(--text-faint);font-size:11px}.rh{color:var(--text);text-align:right}
+.ra{color:var(--text)}
+.rs{background:var(--score-bg);border-radius:6px;padding:2px 6px;text-align:center;font-weight:700;color:var(--text);font-family:monospace}
 /* Playoff bracket */
 .bracket{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start}
 .brnd{display:flex;flex-direction:column;gap:8px}
 .brnd-title{font-family:var(--font-d);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.match{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;position:relative}
+.match{background:var(--match-bg);border:1px solid var(--match-bdr);border-radius:10px;overflow:hidden;position:relative}
 .match.nor-match{border-color:rgba(239,43,45,.5);background:rgba(239,43,45,.08)}
 .match.nor-match::before{content:'🔥';position:absolute;top:4px;right:8px;font-size:12px}
-.team-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;font-size:13px}
-.team-row:first-child{border-bottom:1px solid rgba(255,255,255,.06)}
+.team-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;font-size:13px;color:var(--text)}
+.team-row:first-child{border-bottom:1px solid var(--bdr)}
 .team-row.winner{background:rgba(74,222,128,.1);font-weight:700}
 .team-row.nor-team{font-weight:700;color:var(--red)}
 .team-seed{font-size:10px;color:var(--muted);margin-right:6px}
-.team-score{font-weight:700;font-family:monospace;color:#fff}
-.match-meta{font-size:10px;color:var(--muted);padding:4px 12px 6px;background:rgba(0,0,0,.2)}
-.tbd{opacity:.4;font-style:italic}
-/* Button */
+.team-score{font-weight:700;font-family:monospace}
+.match-meta{font-size:10px;color:var(--muted);padding:4px 12px 6px;background:var(--row-even)}
+.tbd{opacity:.5;font-style:italic}
+/* Buttons */
 .rbtn{background:rgba(239,43,45,.15);border:1px solid rgba(239,43,45,.4);color:var(--red);font-weight:700;font-size:12px;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:var(--font-b);transition:all .2s}
 .rbtn:hover{background:rgba(239,43,45,.3)}.rbtn:disabled{opacity:.45;cursor:not-allowed}
+.tbtn{background:var(--match-bg);border:1px solid var(--bdr);color:var(--muted);font-size:18px;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.tbtn:hover{border-color:var(--red);color:var(--text)}
+.hdr-btns{display:flex;gap:8px;align-items:center}
 .msg{font-size:11px}.ok{color:var(--green)}.warn{color:var(--orange)}
-footer{text-align:center;font-size:11px;color:rgba(255,255,255,.18);margin-top:10px}
+footer{text-align:center;font-size:11px;color:var(--muted);margin-top:10px}
 @media(max-width:600px){
   .hdr-t{font-size:16px}.tab{font-size:11px;padding:8px 9px}
   .hero-pos{font-size:24px}.s-val{font-size:22px}
@@ -99,7 +121,10 @@ footer{text-align:center;font-size:11px;color:rgba(255,255,255,.18);margin-top:1
     <div class="hdr-sub">Sveits · 15–31. mai · <span id="upd">Laster…</span></div>
   </div>
   <div class="hdr-r">
-    <button class="rbtn" id="rbtn" onclick="doRefresh()">⟳ Oppdater</button>
+    <div class="hdr-btns">
+      <button class="tbtn" id="tbtn" onclick="toggleTheme()" title="Bytt tema">🌙</button>
+      <button class="rbtn" id="rbtn" onclick="doRefresh()">⟳ Oppdater</button>
+    </div>
     <div class="msg" id="msg"></div>
   </div>
 </div>
@@ -149,13 +174,7 @@ footer{text-align:center;font-size:11px;color:rgba(255,255,255,.18);margin-top:1
       <div class="lbl" style="color:#fbbf24">🏆 Sluttspill · 28–31. mai · Zürich</div>
       <div id="playoff"></div>
     </div>
-    <div class="card" style="font-size:12px;color:var(--muted);line-height:1.7">
-      <strong style="color:rgba(255,255,255,.6)">Format:</strong>
-      Topp 4 fra hver gruppe går videre til kvartfinalene. Kryssing: A1 vs B4, A2 vs B3, B1 vs A4, B2 vs A3.
-      Semifinalene pairer vinnerne fra QF1+QF4 og QF2+QF3.
-      <br><strong style="color:rgba(255,255,255,.6)">Norges vei:</strong>
-      Med nåværende 3. plass i Gruppe B møter Norge 2. plass fra Gruppe A (projektet: Finland) i kvartfinalen.
-    </div>
+
   </div>
 </div>
 
@@ -524,6 +543,16 @@ async function doRefresh(){
   msg.textContent=ok?'✓ '+log.join(', '):'⚠ Wikipedia utilgjengelig – viser lagret data';
   btn.disabled=false;btn.textContent='⟳ Oppdater';
 }
+
+// ── Tema-toggle ───────────────────────────────────────────────────────────────
+function toggleTheme(){
+  const light=document.body.classList.toggle('light');
+  document.getElementById('tbtn').textContent=light?'🌑':'🌙';
+  try{localStorage.setItem('theme',light?'light':'dark');}catch(e){}
+}
+(function(){
+  try{if(localStorage.getItem('theme')==='light'){document.body.classList.add('light');document.getElementById('tbtn').textContent='🌑';}}catch(e){}
+})();
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 renderHero(FB_B);
