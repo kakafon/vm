@@ -98,7 +98,15 @@ table.st tr:not(.nor):nth-child(even){background:var(--row-even)}
 .team-score{font-weight:700;font-family:monospace}
 .match-meta{font-size:10px;color:var(--muted);padding:4px 12px 6px;background:var(--row-even)}
 .tbd{opacity:.5;font-style:italic}
-/* Buttons */
+/* Stats */
+.nor-row td,.nor-row th{font-weight:700!important}
+.nor-row{background:rgba(239,43,45,.18)!important;border-left:3px solid var(--red)!important}
+.gk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:12px}
+.gk-stat{background:var(--match-bg);border:1px solid var(--match-bdr);border-radius:10px;padding:10px;text-align:center}
+.gk-val{font-family:var(--font-d);font-size:26px;font-weight:900}
+.gk-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.gk-note{font-size:12px;color:var(--muted);border-top:1px solid var(--bdr);padding-top:10px;margin-top:4px;line-height:1.6}
+.crown{color:#fbbf24}
 .rbtn{background:rgba(239,43,45,.15);border:1px solid rgba(239,43,45,.4);color:var(--red);font-weight:700;font-size:12px;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:var(--font-b);transition:all .2s}
 .rbtn:hover{background:rgba(239,43,45,.3)}.rbtn:disabled{opacity:.45;cursor:not-allowed}
 .tbtn{background:var(--match-bg);border:1px solid var(--bdr);color:var(--muted);font-size:18px;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
@@ -135,6 +143,7 @@ footer{text-align:center;font-size:11px;color:var(--muted);margin-top:10px}
   <button class="tab"     onclick="tab('k',this)">Norges kamper</button>
   <button class="tab"     onclick="tab('r',this)">Resultater</button>
   <button class="tab"     onclick="tab('s',this)">🏆 Sluttspill</button>
+  <button class="tab"     onclick="tab('st',this)">📊 Statistikk</button>
 </div>
 
 <div class="panels">
@@ -175,6 +184,21 @@ footer{text-align:center;font-size:11px;color:var(--muted);margin-top:10px}
       <div id="playoff"></div>
     </div>
 
+  </div>
+
+  <div class="panel" id="panel-st">
+    <div class="card">
+      <div class="lbl" style="color:#fbbf24">🏆 Toppscorere · Hele mesterskapet <span id="st-src" style="font-size:10px;font-weight:400;opacity:.5"></span></div>
+      <div class="tw"><table class="st" id="tbl-sc"></table></div>
+    </div>
+    <div class="card nc">
+      <div class="lbl" style="color:var(--red)">🇳🇴 Norges scorere</div>
+      <div class="tw"><table class="st" id="tbl-nor-sc"></table></div>
+    </div>
+    <div class="card">
+      <div class="lbl" style="color:var(--blue)">🧤 Keeper · Henrik Haukeland</div>
+      <div id="gk-box"></div>
+    </div>
   </div>
 </div>
 
@@ -258,6 +282,35 @@ const FB_RES = [
   {date:'22. mai',home:'🇸🇪 Sverige',  away:'🇮🇹 Italia',   score:'3–0',   hl:false},
   {date:'23. mai',home:'🇸🇪 Sverige',  away:'🇳🇴 Norge',    score:'2–3',   hl:true},
 ];
+
+// ── Statistikk-data (per 23. mai – dag 9) ────────────────────────────────────
+// Kilde: IIHF.com + kamprapporter
+const FB_SCORERS = [
+  {pos:1, player:'Lucas Raymond',   team:'🇸🇪 Sverige', club:'Detroit Red Wings',   pos_s:'F', gp:5, g:5, a:5, pts:10, pm:2,  isN:false},
+  {pos:2, player:'Roman Josi',      team:'🇨🇭 Sveits',  club:'Nashville Predators', pos_s:'B', gp:6, g:4, a:6, pts:10, pm:6,  isN:false},
+  {pos:3, player:'Mikkel Aagaard',  team:'🇩🇰 Danmark', club:'SønderjyskE (DEN)',   pos_s:'F', gp:5, g:3, a:6, pts:9,  pm:1,  isN:false},
+  {pos:4, player:'Evan Bouchard',   team:'🇨🇦 Canada',  club:'Edmonton Oilers',     pos_s:'B', gp:5, g:1, a:7, pts:8,  pm:5,  isN:false},
+  {pos:5, player:'Mark Scheifele',  team:'🇨🇦 Canada',  club:'Winnipeg Jets',       pos_s:'F', gp:5, g:5, a:2, pts:7,  pm:3,  isN:false},
+  {pos:6, player:'Noah Steen',      team:'🇳🇴 Norge',   club:'Tampa Bay Lightning', pos_s:'F', gp:5, g:5, a:2, pts:7,  pm:-1, isN:true},
+  {pos:7, player:'Gabriel Vilardi', team:'🇨🇦 Canada',  club:'Winnipeg Jets',       pos_s:'F', gp:5, g:3, a:4, pts:7,  pm:4,  isN:false},
+  {pos:8, player:'Denis Malgin',    team:'🇨🇭 Sveits',  club:'HC Davos (SUI)',      pos_s:'F', gp:6, g:3, a:3, pts:6,  pm:3,  isN:false},
+  {pos:9, player:'Lukas Reichel',   team:'🇩🇪 Tyskland',club:'Boston Bruins',       pos_s:'F', gp:5, g:4, a:2, pts:6,  pm:2,  isN:false},
+  {pos:10,player:'Dylan Cozens',    team:'🇨🇦 Canada',  club:'Buffalo Sabres',      pos_s:'F', gp:5, g:2, a:4, pts:6,  pm:4,  isN:false},
+];
+const FB_NOR = [
+  {player:'Noah Steen',          club:'Tampa Bay Lightning (NHL)',gp:5,g:5,a:2,pts:7, note:'🔥 Top 6 totalt'},
+  {player:'Eskild Bakke Olsen',  club:'Linköping HC (SWE)',       gp:5,g:2,a:1,pts:3, note:''},
+  {player:'Johannes Johannesen', club:'Lahti Pelicans (FIN)',      gp:5,g:2,a:0,pts:2, note:'2 mål vs Canada'},
+  {player:'Eirik Salsten',       club:'HV71 (SWE)',               gp:5,g:1,a:1,pts:2, note:'SH-mål mot Sverige'},
+  {player:'Tinus Luc Koblar',    club:'Leksands IF (SWE)',         gp:5,g:1,a:1,pts:2, note:''},
+  {player:'Petter Vesterheim',   club:'Kärpät (FIN)',             gp:5,g:0,a:2,pts:2, note:''},
+  {player:'Patrick Elvsveen',    club:'Sparta Warriors (NOR)',    gp:5,g:0,a:2,pts:2, note:''},
+];
+const FB_GK = {
+  name:'Henrik Haukeland', age:31, club:'Lausanne HC (SUI)',
+  gp:5, w:3, otl:1, l:1, ga:10, gaa:'2.00', svp:'.921', so:2,
+  note:'2 nulltakere på rad (Slovenia + Italia) · Beste norske VM-keeperspilling på mange år · Reddet laget i Sverige-kampen (30 redninger)'
+};
 
 // ── Wikipedia-henting ─────────────────────────────────────────────────────────
 async function fetchWikiHTML(page){
@@ -496,6 +549,102 @@ function renderPlayoff(bSt,aSt){
     </div>`;
 }
 
+// ── Parse: toppscorere fra Wikipedia HTML ────────────────────────────────────
+function parseScorers(doc){
+  for(const tbl of doc.querySelectorAll('table.wikitable')){
+    const hdr=[...(tbl.querySelector('tr')?.querySelectorAll('th')||[])].map(th=>th.textContent.trim().toUpperCase());
+    // Need GP/G/A/Pts columns
+    if(!hdr.some(h=>h==='G')&&!hdr.some(h=>h==='PTS'||h==='PT')) continue;
+    if(!hdr.some(h=>h==='PLAYER'||h==='NAME')) continue;
+    const ci=ns=>{const i=hdr.findIndex(h=>ns.includes(h));return i>=0?i:undefined;};
+    const col={pos:0,player:ci(['PLAYER','NAME'])??1,team:ci(['TEAM','COUNTRY','NAT'])??2,
+               gp:ci(['GP','GMS']),g:ci(['G']),a:ci(['A']),pts:ci(['PTS','PT','P']),pm:ci(['+/−','+/-','PM'])};
+    if(col.g===undefined||col.pts===undefined) continue;
+    const rows=[];
+    for(const tr of tbl.querySelectorAll('tbody tr')){
+      const cells=[...tr.querySelectorAll('td,th')];if(cells.length<5) continue;
+      const gt=i=>i!==undefined&&i<cells.length?cells[i].textContent.trim().replace(/\[.*?\]/g,'').trim():'';
+      const pts=parseInt(gt(col.pts))||0;if(!pts) continue;
+      const playerT=gt(col.player);if(!playerT||playerT.length<2) continue;
+      const teamT=gt(col.team);const td=TL(teamT);
+      rows.push({
+        pos:rows.length+1,player:playerT,team:`${td.f} ${td.no}`,
+        gp:parseInt(gt(col.gp))||0,g:parseInt(gt(col.g))||0,
+        a:parseInt(gt(col.a))||0,pts,
+        pm:parseInt(gt(col.pm))||0,
+        isN:isNor(teamT||playerT),
+      });
+    }
+    if(rows.length>=5) return rows;
+  }
+  return null;
+}
+
+// ── Render: statistikk ────────────────────────────────────────────────────────
+function renderStats(scorers, norScorers, gk){
+  // Toppscorere
+  const SC = scorers||FB_SCORERS;
+  const H1=['#','Spiller','Lag','Klubb','Pos','KP','M','A','P','+/−'];
+  const head1=`<thead><tr>${H1.map((h,i)=>`<th style="text-align:${i<=3?'left':'center'}">${h}</th>`).join('')}</tr></thead>`;
+  const body1=SC.map((r,i)=>{
+    const crown=r.pos===1?'<span class="crown">🏆 </span>':'';
+    return `<tr class="${r.isN?'nor-row':''}${!r.isN&&i%2===0?' ':' '}">
+      <td style="color:${r.pos<=3?'#fbbf24':'var(--muted)'}${r.pos===1?';font-weight:700':''}">${r.pos}</td>
+      <td>${crown}${r.player}${r.isN?' 🇳🇴':''}</td>
+      <td style="white-space:nowrap">${r.team}</td>
+      <td style="font-size:11px;color:var(--muted)">${r.club||''}</td>
+      <td style="text-align:center;font-size:11px">${r.pos_s||r.posStr||''}</td>
+      <td style="text-align:center">${r.gp}</td>
+      <td style="text-align:center;font-weight:700;color:var(--green)">${r.g}</td>
+      <td style="text-align:center">${r.a}</td>
+      <td style="text-align:center;font-weight:700;color:#fff">${r.pts}</td>
+      <td style="text-align:center;color:${r.pm>0?'var(--green)':r.pm<0?'var(--danger)':'var(--muted)'}">${r.pm>0?'+'+r.pm:r.pm}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tbl-sc').innerHTML=head1+`<tbody>${body1}</tbody>`;
+
+  // Norges scorere
+  const NR = norScorers||FB_NOR;
+  const H2=['Spiller','Klubb','KP','M','A','P',''];
+  const head2=`<thead><tr>${H2.map((h,i)=>`<th style="text-align:${i<=1?'left':'center'}">${h}</th>`).join('')}</tr></thead>`;
+  const body2=NR.map((r,i)=>`<tr style="${i===0?'background:rgba(239,43,45,.18);border-left:3px solid var(--red)':'border-left:3px solid transparent'}">
+    <td style="font-weight:${i===0?700:400}">${r.player}</td>
+    <td style="font-size:11px;color:var(--muted)">${r.club}</td>
+    <td style="text-align:center">${r.gp}</td>
+    <td style="text-align:center;font-weight:700;color:var(--green)">${r.g}</td>
+    <td style="text-align:center">${r.a}</td>
+    <td style="text-align:center;font-weight:700;color:#fff">${r.pts}</td>
+    <td style="font-size:11px;color:var(--orange)">${r.note||''}</td>
+  </tr>`).join('');
+  document.getElementById('tbl-nor-sc').innerHTML=head2+`<tbody>${body2}</tbody>`;
+
+  // Haukeland
+  const G = gk||FB_GK;
+  const stats=[
+    {v:G.gp,    l:'Kamper'},
+    {v:`${G.w}-${G.otl}-${G.l}`, l:'V-OT-T'},
+    {v:G.so,    l:'Nulltakere', hi:true},
+    {v:G.ga,    l:'Mål imot'},
+    {v:G.gaa,   l:'GAA'},
+    {v:G.svp,   l:'Rednings%', hi:true},
+  ];
+  document.getElementById('gk-box').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+      <div style="font-size:28px">🧤</div>
+      <div>
+        <div style="font-size:15px;font-weight:700">${G.name}</div>
+        <div style="font-size:12px;color:var(--muted)">${G.club} · ${G.age} år</div>
+      </div>
+    </div>
+    <div class="gk-grid">
+      ${stats.map(s=>`<div class="gk-stat">
+        <div class="gk-val" style="color:${s.hi?'var(--green)':'var(--text)'}">${s.v}</div>
+        <div class="gk-lbl">${s.l}</div>
+      </div>`).join('')}
+    </div>
+    <div class="gk-note">${G.note}</div>`;
+}
+
 // ── Tab ───────────────────────────────────────────────────────────────────────
 function tab(id,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
@@ -536,6 +685,17 @@ async function doRefresh(){
   if(!gotRes) renderResults(FB_RES);
   renderPlayoff(bSt,aSt);
 
+  // Statistikk – prøv Wikipedia-hoved-side for scoring-tabell
+  try{
+    const doc=await fetchWikiHTML('2026_IIHF_World_Championship');
+    const sc=parseScorers(doc);
+    if(sc&&sc.length>=5){
+      renderStats(sc,null,null);
+      document.getElementById('st-src').textContent='(Wikipedia)';
+      log.push('statistikk ✓');
+    } else { renderStats(null,null,null); }
+  }catch(e){ renderStats(null,null,null); }
+
   const now=new Date().toLocaleString('no-NO',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
   document.getElementById('upd').textContent=now;
   const ok=(bSt||aSt);
@@ -561,6 +721,7 @@ renderTable('tbl-a',FB_A);
 renderSchedule();
 renderResults(FB_RES);
 renderPlayoff(FB_B,FB_A);
+renderStats(null,null,null);
 document.getElementById('upd').textContent='Fallback · 23. mai 2026';
 doRefresh();
 </script>
